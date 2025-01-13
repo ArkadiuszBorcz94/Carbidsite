@@ -1,6 +1,8 @@
 using System.Net;
+using MassTransit;
 using Polly;
 using Polly.Extensions.Http;
+using SearchingService.Consumers;
 using SearchingService.Data;
 using SearchingService.Services;
 
@@ -9,7 +11,37 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<AuctionSvcHttpClient>().AddPolicyHandler(GetPolicy());
+
+
+
+//Konfiguracja RabbitMQ, będzie używał localhost do komunikacji
+
+builder.Services.AddMassTransit(x=>
+{
+
+    x.AddConsumersFromNamespaceContaining<CreatedAuctionsConsumer>();
+   
+    //zmiana formatowanie dla createdAuctionsConsumer podczas używania endpointu dodaje przedrostek "search-"
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
+   
+    x.UsingRabbitMq((context, cfg)=>
+    {
+
+     cfg.ReceiveEndpoint("search-created-auctions", e=>
+    {
+        //ponawianie 5 razy co 5 sekund przywrócenie aukcji z message box jeśli mongoDb nie odpowiada
+
+        e.UseMessageRetry(r => r.Interval(5, 5));
+        e.ConfigureConsumer<CreatedAuctionsConsumer>(context);
+    });
+
+    cfg.ConfigureEndpoints(context);
+
+    });
+
+});
 
 
 var app = builder.Build();

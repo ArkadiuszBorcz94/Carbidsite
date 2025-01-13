@@ -32,7 +32,7 @@ using var scope = app.Services.CreateScope();
 var httpClient = scope.ServiceProvider.GetRequiredService<AuctionSvcHttpClient>();
 var items = await httpClient.GetItemsForSearchDb();
 
-Console.WriteLine(items.Count + "Zwrócono z Auction service");
+Console.WriteLine(items.Count + " Aukcje zwrócono z Auction service");
 
 
 //wykonujemy połączenie z bazą danych tylko jeśli mamy coś do zapisania 
