@@ -1,7 +1,9 @@
 using AuctionService.Data;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,9 +39,25 @@ builder.Services.AddMassTransit(x=>
 
 });
 
+//weryfikowanie tokenu ,przez kogo został faktycznie wydany iu zweryfikuje go z serwerm identity gdzie options authority pobiera i ustawia uprawnienia
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["IdentitficationServiceUrl"];
+        options.RequireHttpsMetadata= false;
+        options.TokenValidationParameters.ValidateAudience = false;
+        options.TokenValidationParameters.NameClaimType = "username";
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+
+//musi nastąpić autentykacja przed autoryzacją ponieważ wyskoczy błąd 401 trzeba zweryfikować kto jest kim zani dostanie dostęp
+app.UseAuthentication();
 
 
 app.UseAuthorization();

@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contract;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -59,6 +60,9 @@ public async Task<ActionResult<AuctionDto>> GetAuctionById(Guid id)
     return _mapper.Map<AuctionDto>(auction);
 }
 
+//jeśli anonimowy użytkownik spróbuje uzyskać dostęp do tego endpoint dustanie błląd 401, jest to zabezpieczenie autoryzacyjne,
+// trzeba być zalogowanym by móc dodawać edytować i usuwać aukcję
+[Authorize]
 
 
 [HttpPost]
@@ -66,8 +70,10 @@ public async Task<ActionResult<AuctionDto>>CreateAuction(CreateAuctionDto auctio
 {
 
     var auction = _mapper.Map<Auction>(auctionDto);
-    //Trzeba dodać bierzącego użytkownika jako sprzedającego
-    auction.Seller= "test";
+    
+
+
+    auction.Seller= User.Identity.Name;
 
     _context.Auctions.Add(auction);
 
@@ -90,6 +96,10 @@ public async Task<ActionResult<AuctionDto>>CreateAuction(CreateAuctionDto auctio
          new{auction.Id}, newAuction);
 }
 
+//jeśli anonimowy użytkownik spróbuje uzyskać dostęp do tego endpoint dustanie błląd 401, jest to zabezpieczenie autoryzacyjne,
+// trzeba być zalogowanym by móc dodawać edytować i usuwać aukcję
+[Authorize]
+
 [HttpPut("{id}")]
 
 public async Task<ActionResult<AuctionDto>>UpdateAuction(Guid id, UpdateAuctionDto updateAuctionDto )
@@ -100,8 +110,8 @@ public async Task<ActionResult<AuctionDto>>UpdateAuction(Guid id, UpdateAuctionD
 
         if (auction==null) return NotFound();
 
-
-        //Trzeba dodać sprawdzenie sprzedawcy czy jest równe nazwie użytkownika
+        //sprawdzenie czy osoba aktualizująca aukcję pasuje do osoby sprzedającej by pbca posoba nie mogła aktualizować czyjejś aukcji
+        if (auction.Seller!=User.Identity.Name)return Forbid();
 
         auction.Item.Make= updateAuctionDto.Make?? auction.Item.Make;
         auction.Item.Model= updateAuctionDto.Model?? auction.Item.Model;
@@ -119,7 +129,9 @@ public async Task<ActionResult<AuctionDto>>UpdateAuction(Guid id, UpdateAuctionD
         return BadRequest("Wystąpił problem w zapisywaniu zmian w bazie danych");
     }
 
-
+//jeśli anonimowy użytkownik spróbuje uzyskać dostęp do tego endpoint dustanie błląd 401, jest to zabezpieczenie autoryzacyjne,
+// trzeba być zalogowanym by móc dodawać edytować i usuwać aukcję
+    [Authorize]
     [HttpDelete("{id}")]
 
         public async Task<ActionResult>DeleteAuction(Guid id)
@@ -130,7 +142,7 @@ public async Task<ActionResult<AuctionDto>>UpdateAuction(Guid id, UpdateAuctionD
         if(auction==null) return NotFound();
 
 
-         //Trzeba dodać sprawdzenie sprzedawcy czy jest równe nazwie użytkownika
+         if(auction.Seller != User.Identity.Name) return Forbid();
 
 
         _context.Auctions.Remove(auction);
