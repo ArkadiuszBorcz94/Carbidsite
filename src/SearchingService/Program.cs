@@ -28,7 +28,18 @@ builder.Services.AddMassTransit(x=>
    
     x.UsingRabbitMq((context, cfg)=>
     {
+        
+        cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host=>
+        {
+            
+            //nasza mikrosuługa będzie mogła łączyć sięna dal z RabbitMQ poziomie development
+            //jeśli nie zostanie podana naqzwa użytkowanika to zostanie ustawiona na guest i to samo z hasłem
+        host.Username(builder.Configuration.GetValue("RabbitMq:Username", "guest"));
+        host.Password(builder.Configuration.GetValue("RabbitMq:Password", "guest"));
 
+        });
+
+        
      cfg.ReceiveEndpoint("search-created-auctions", e=>
     {
         //ponawianie 5 razy co 5 sekund przywrócenie aukcji z message box jeśli mongoDb nie odpowiada

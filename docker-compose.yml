@@ -21,3 +21,64 @@ services:
   ports:
    - 5672:5672
    - 15672:15672
+ auction-svc:
+    image: carbidsiteproject/auction-svc:latest
+    build: 
+      context: .
+      dockerfile: src/AuctionService/Dockerfile
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Development
+       - ASPNETCORE_URLS=http://+:80
+       - RabbitMq__Host=rabbitmq
+       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=auctions
+       - IdentitficationServiceUrl=http://identification-svc
+    ports:   
+       - 7001:80
+      
+    depends_on:
+       - postgres
+       - rabbitmq
+ searching-svc:
+    image: carbidsiteproject/searching-svc:latest
+    build: 
+      context: .
+      dockerfile: src/SearchingService/Dockerfile
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Development
+       - ASPNETCORE_URLS=http://+:80
+       - RabbitMq__Host=rabbitmq
+       - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@mongodb
+       - AuctionServiceUrl=http://auction-svc
+    ports:   
+       - 7002:80
+      
+    depends_on:
+       - mongodb
+       - rabbitmq
+ identification-svc:
+    image: carbidsiteproject/identification-svc:latest
+    build: 
+      context: .
+      dockerfile: src/IdentificationService/Dockerfile
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Docker
+       - ASPNETCORE_URLS=http://+:80
+       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=identity
+     
+    ports:  
+       - 5000:80
+      
+    depends_on:
+       - postgres
+ gateway-svc:
+    image: carbidsiteproject/gateway-svc:latest
+    build: 
+      context: .
+      dockerfile: src/GatewayServices/Dockerfile
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Docker
+       - ASPNETCORE_URLS=http://+:80
+    ports:   
+       - 6001:80
+      
+   
