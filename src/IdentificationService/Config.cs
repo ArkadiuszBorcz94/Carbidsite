@@ -50,6 +50,7 @@ public static class Config
             AllowedScopes={"openid", "profile", "auctionApp"},
             //czas trwania tokenu (3600- godzina,   *24*30= 1 miesiąc)
             AccessTokenLifetime= 3600*24*30,
+            AlwaysIncludeUserClaimsInIdToken=true
             }
         };
 }

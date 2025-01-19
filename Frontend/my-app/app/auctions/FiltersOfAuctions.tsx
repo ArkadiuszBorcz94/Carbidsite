@@ -4,9 +4,11 @@ import React from 'react'
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { RxLapTimer } from "react-icons/rx";
 import { GrNewWindow } from "react-icons/gr";
-
+import { GrStatusGood } from "react-icons/gr";
+import { FaHourglassEnd, FaRegCalendarTimes } from 'react-icons/fa';
 
 const buttonsSizeOfPage=[4,8,12];
+
 const sortingButtons=[
   {
     label:'Alfabetycznie',
@@ -29,18 +31,18 @@ const sortingButtons=[
 const filteringButtons=[
   {
     label:'Aktywne',
-    icon: TiSortAlphabeticallyOutline,
+    icon: GrStatusGood,
     value: 'live'
   },
   {
     label:'Mniej niż 12h',
-    icon: RxLapTimer,
+    icon: FaHourglassEnd,
     value: 'endingSoon'
   },
 
   {
     label:'Zakończono',
-    icon: GrNewWindow,
+    icon: FaRegCalendarTimes,
     value: 'finished'
   },
 ]

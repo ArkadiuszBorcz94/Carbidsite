@@ -40,24 +40,23 @@ public async Task<ActionResult<List<Item>>> SearchItems([FromQuery] SearchParam 
         {
 
             // sortowanie po marce auta
-            "make"=> querry.Sort(x => x.Ascending(a=>a.Make)), 
-           
+            "make"=> querry.Sort(x => x.Ascending(a=>a.Make)).Sort(x => x.Ascending(a => a.Model)),
+                
             // sortowanie po dacie utworzenia  
 
             "new"=> querry.Sort(x => x.Descending(a=>a.CreatedAt)),    
             
             //domyślne sortowanie po aukcjach kończących się
-            _=>querry.Sort(x=> x.Ascending(a=>a.AuctionEnd))
+            _ =>querry.Sort(x=> x.Ascending(a=>a.AuctionEnd))
         };
 
         //filtrowanie po selekcji
 
         querry=searchParam.FilterBy switch
         {
-         "finished"=>querry.Match(x=> x.AuctionEnd<DateTime.UtcNow),
-            "endingSoon"=>querry.Match(x=>x.AuctionEnd<DateTime.UtcNow.AddHours(6)&&
-             x.AuctionEnd>DateTime.UtcNow),
-            _=> querry.Match(x=>x.AuctionEnd>DateTime.UtcNow)
+         "finished"=>querry.Match(x=> x.AuctionEnd < DateTime.UtcNow),
+            "endingSoon"=>querry.Match(x=>x.AuctionEnd < DateTime.UtcNow.AddHours(6)&& x.AuctionEnd > DateTime.UtcNow),
+            _ => querry.Match(x=>x.AuctionEnd > DateTime.UtcNow)
        
         };
 

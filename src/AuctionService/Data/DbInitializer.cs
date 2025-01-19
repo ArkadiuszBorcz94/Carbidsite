@@ -36,7 +36,7 @@ public class DbInitializer
                 Status = Status.Live,
                 ReservePrice = 20000,
                 Seller = "bob",
-                AuctionEnd = DateTime.UtcNow.AddDays(10),
+                AuctionEnd = DateTime.UtcNow.AddDays(1),
                 Item = new Item
                 {
                     Make = "Ford",
@@ -54,7 +54,7 @@ public class DbInitializer
                 Status = Status.Live,
                 ReservePrice = 90000,
                 Seller = "alice",
-                AuctionEnd = DateTime.UtcNow.AddDays(60),
+                AuctionEnd = DateTime.UtcNow.AddDays(2),
                 Item = new Item
                 {
                     Make = "Bugatti",
@@ -71,7 +71,7 @@ public class DbInitializer
                 Id = Guid.Parse("bbab4d5a-8565-48b1-9450-5ac2a5c4a654"),
                 Status = Status.Live,
                 Seller = "bob",
-                AuctionEnd = DateTime.UtcNow.AddDays(4),
+                AuctionEnd = DateTime.UtcNow.AddDays(3),
                 Item = new Item
                 {
                     Make = "Ford",
@@ -107,7 +107,7 @@ public class DbInitializer
                 Status = Status.Live,
                 ReservePrice = 20000,
                 Seller = "alice",
-                AuctionEnd = DateTime.UtcNow.AddDays(30),
+                AuctionEnd = DateTime.UtcNow.AddDays(9),
                 Item = new Item
                 {
                     Make = "BMW",
@@ -125,7 +125,7 @@ public class DbInitializer
                 Status = Status.Live,
                 ReservePrice = 20000,
                 Seller = "bob",
-                AuctionEnd = DateTime.UtcNow.AddDays(45),
+                AuctionEnd = DateTime.UtcNow.AddHours(4),
                 Item = new Item
                 {
                     Make = "Ferrari",
@@ -160,7 +160,7 @@ public class DbInitializer
                 Id = Guid.Parse("6a5011a1-fe1f-47df-9a32-b5346b289391"),
                 Status = Status.Live,
                 Seller = "bob",
-                AuctionEnd = DateTime.UtcNow.AddDays(19),
+                AuctionEnd = DateTime.UtcNow.AddHours(12),
                 Item = new Item
                 {
                     Make = "Audi",
@@ -178,7 +178,7 @@ public class DbInitializer
                 Status = Status.Live,
                 ReservePrice = 20000,
                 Seller = "tom",
-                AuctionEnd = DateTime.UtcNow.AddDays(20),
+                AuctionEnd = DateTime.UtcNow.AddHours(4),
                 Item = new Item
                 {
                     Make = "Audi",
