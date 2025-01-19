@@ -55,7 +55,8 @@ public async Task<ActionResult<List<Item>>> SearchItems([FromQuery] SearchParam 
         querry=searchParam.FilterBy switch
         {
          "finished"=>querry.Match(x=> x.AuctionEnd<DateTime.UtcNow),
-            "endingSoon"=>querry.Match(x=>x.AuctionEnd<DateTime.UtcNow.AddHours(6)&& x.AuctionEnd>DateTime.UtcNow),
+            "endingSoon"=>querry.Match(x=>x.AuctionEnd<DateTime.UtcNow.AddHours(6)&&
+             x.AuctionEnd>DateTime.UtcNow),
             _=> querry.Match(x=>x.AuctionEnd>DateTime.UtcNow)
        
         };
