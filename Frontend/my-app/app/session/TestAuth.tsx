@@ -30,8 +30,6 @@ export default function TestAuth() {
         </Button>
         <div>
         {JSON.stringify(result, null, 2)}
-        
-
         </div>
     </div>
   )

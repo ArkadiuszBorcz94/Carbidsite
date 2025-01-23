@@ -3,6 +3,7 @@ import React from 'react'
 import CountdownTimer from './CountdownTimer'
 import ImagesOfCars from './ImagesOfCars'
 import { Auction } from '@/types'
+import Link from 'next/link'
 
 //użycie typów z /types/index.ts w celu bezpieczensta przed pomyłkami by wykorzystywać typy generyczne
 type Props={
@@ -13,7 +14,7 @@ type Props={
 export default function AuctionsCards({auction}: Props) { 
   return (
     //#oznacza że w kartę będzie można kliknąć
-    <a href="#" className='group'>
+    <Link href={`/auctions/details/${auction.id}`} className='group'>
         //kontenery na aukcje
         <div className='relative w-full bg-gray-200 aspect-video rounded-lg overfolw-hidden'>
            <ImagesOfCars imageUrl={auction.imageUrl}/>
@@ -31,6 +32,6 @@ export default function AuctionsCards({auction}: Props) {
           <p className='font-semibold text-sm'>{auction.year}</p>
        </div>
       
-    </a>
+    </Link>
   )
 }

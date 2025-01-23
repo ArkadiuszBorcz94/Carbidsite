@@ -1,51 +1,50 @@
 'use server'
 
 import { auth } from "@/auth";
+import { wrapperOfFetches } from "@/library/wrapperOfFetches";
 import { Auction, PagedResult } from "@/types";
+import { revalidatePath } from "next/cache";
+import {  FieldValues } from "react-hook-form";
 
 
 
 
 export async function getData(query: string): Promise<PagedResult<Auction>>{
 
-   const res=await fetch(`http:/localhost:6001/search${query}`);
-    //const res=await fetch(`http:/localhost:6001/search?pageSize=${pageSize}`);
-  
-    if(!res.ok) throw new Error("Nie wydobyto danych")
-      return res.json();
-  
-  
-  }
+return await wrapperOfFetches.get(`search${query}`)
+}
+
 
   export async function auctionUpdateTesting(){
 
     const data={
 
-      mileage: Math.floor(Math.random()*10000)+1
-
+      milage: Math.floor(Math.random()*10000)+1,
+    
     }
 
-    const session=await auth();
+    return await wrapperOfFetches.put('auctions/6a5011a1-fe1f-47df-9a32-b5346b289391', data);
+  }
 
-    const res =await fetch('http//localhost:6001/auctions' ,{
-        method: 'PUT',
-        headers:{
-          'Content-type': 'application/json',
-          'Authorization' : 'Bearer ' + session?.accessToken
+//metoda tworzenia aukcji
+  export async function createAuction(data: FieldValues) {
+    return await wrapperOfFetches.post('auctions', data);
+  }
 
 
-        },
-        body: JSON.stringify(data)
+//metoda wyświetlania szczegółów aukcji
+  export async function getDetailView(id:string): Promise<Auction> {
+    return await wrapperOfFetches.get(`auctions/${id}`);
+  }
 
-    });
+  //metoda edycji aukcji revalidatePath forcuje strone do odświeżaenia właściwości w tabeli po zmianie
+  export async function updateAuctions(data: FieldValues, id: string){
+    const res= await wrapperOfFetches.put(`auctions/${id}`, data);
+    revalidatePath(`/auctions/${id}`);
+    return res;
+  }
 
-    if (!res.ok) return {status: res.status, message: res.statusText}
-     
-      return res.statusText;
-    //return res.json();
-  
-  
-  
-  
-  
-    }
+  export async function deletingAuctions(id: string){
+
+    return await wrapperOfFetches.del(`auctions/${id}`);
+  }

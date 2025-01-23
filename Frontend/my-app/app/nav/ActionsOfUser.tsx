@@ -1,10 +1,11 @@
 'use client'
 
+import { useParamsStore } from '@/hooks/storeParamsUsed'
 import { Button, Dropdown, DropdownDivider, DropdownItem } from 'flowbite-react'
 import { User } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import { AiFillTrophy } from 'react-icons/ai'
 import { GiPodiumWinner } from 'react-icons/gi'
@@ -20,26 +21,37 @@ type Props ={
 }
 
 export default function ActionsOfUser({user}: Props) {
+  const router=useRouter();
+  const pathname=usePathname();
+  const setParams=useParamsStore(state=>state.setParams );
+ 
+  function setWinner(){
+    setParams({winner: user.username, seller: undefined})
 
-  const router = useRouter();
+    if(pathname !=='/') router.push('/');
+  }
+
+  function setSeller(){
+    setParams({seller: user.username, winner: undefined})
+
+    if(pathname !=='/') router.push('/');
+  }
+
+
+
   return (
    <Dropdown inline label={`Użytkownik:  ${user.name}`}>
-    <DropdownItem icon={PiCardsBold}>
-      <Link href='/'>
+    <DropdownItem icon={PiCardsBold}  onClick={setSeller} >
         Moje
-      </Link>
-
-      
     </DropdownItem>
-    <DropdownItem icon={GiPodiumWinner}>
-      <Link href='/'>
+
+    <DropdownItem icon={GiPodiumWinner} onClick={setWinner}>
         Wygrane
-      </Link>
-
-      
     </DropdownItem>
+
+
     <DropdownItem icon={MdLibraryAdd}>
-      <Link href='/'>
+      <Link href='/auctions/create'>
         Dodaj
       </Link>
 

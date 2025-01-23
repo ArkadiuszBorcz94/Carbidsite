@@ -9,7 +9,8 @@ type State= {
     searchValue: string
     orderBy: string
     filterBy: string
-
+    seller?: string
+    winner?: string
 
 }
 
@@ -21,6 +22,7 @@ type Actions={
     setSearchValue:(value : string)=>void
 
 }
+//przecinki sa na końcu ponieważ są to obiekty a nie typ danych
 const initialState: State ={
     pageNumber:1,
     pageSize:12,
@@ -28,7 +30,9 @@ const initialState: State ={
     searchTerm: '',
     searchValue:'',
     orderBy:'make',
-    filterBy: 'live'
+    filterBy: 'live',
+    seller: undefined,
+    winner: undefined
 }
 
 export const useParamsStore= create<State & Actions>()((set)=>({
