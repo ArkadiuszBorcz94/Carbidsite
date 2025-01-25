@@ -7,6 +7,7 @@ COPY Carbidsite.sln Carbidsite.sln
 COPY src/AuctionService/AuctionService.csproj src/AuctionService/AuctionService.csproj
 COPY src/SearchingService/SearchingService.csproj src/SearchingService/SearchingService.csproj
 COPY src/GatewayServices/GatewayServices.csproj src/GatewayServices/GatewayServices.csproj
+COPY src/BiddService/BiddService.csproj src/BiddService/BiddService.csproj
 COPY src/IdentificationService/IdentificationService.csproj src/IdentificationService/IdentificationService.csproj
 COPY src/Contract/Contract.csproj src/Contract/Contract.csproj
 

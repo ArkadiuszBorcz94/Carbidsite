@@ -78,8 +78,10 @@ export default function FormOfAuctions({ auction }: Props) {
 
 
         <form className=' flex flex-col mt-1 ' onSubmit={handleSubmit(onSubbmit)}>
-
+         
             <Input label='Marka' name='make' control={control} rules={{ required: 'Marka samochodu jest wymagana ' }} />
+            
+
             <Input label='Model' name='model' control={control} rules={{ required: 'Model samochodu jest wymagany ' }} />
             <div className='grid grid-cols-4  gap-2'>
                 <Input label='Kolor' name='color' control={control} rules={{ required: 'Kolor samochodu jest wymagany ' }} />

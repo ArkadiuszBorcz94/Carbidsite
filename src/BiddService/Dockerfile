@@ -16,9 +16,9 @@ RUN dotnet restore Carbidsite.sln
 
 
 # Kopiowanie folderów aplikacji
-COPY src/SearchingService src/SearchingService
+COPY src/BiddService src/BiddService
 COPY src/Contract src/Contract
-WORKDIR /app/src/SearchingService
+WORKDIR /app/src/BiddService
 RUN dotnet publish -c Release -o /app/src/out
 
 
@@ -28,4 +28,4 @@ RUN dotnet publish -c Release -o /app/src/out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/src/out .
-ENTRYPOINT [ "dotnet", "SearchingService.dll" ]
+ENTRYPOINT [ "dotnet", "BiddService.dll" ]

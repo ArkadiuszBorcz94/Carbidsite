@@ -21,7 +21,7 @@ public class FinishedAuctionsConsumer : IConsumer<FinishedAuctions>
       }
 
 
-        auction.Status="Zakończono";
+        auction.Status="Finished";
         await auction.SaveAsync();
 
     }

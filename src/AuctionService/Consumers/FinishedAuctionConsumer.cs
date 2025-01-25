@@ -20,7 +20,7 @@ public class FinishedAuctionConsumer : IConsumer<FinishedAuctions>
     {
 
         Console.WriteLine("--> Oferta konsumencka została zakończona");
-       var auction=await _dbContext.Auctions.FindAsync(context.Message.AuctionId);
+       var auction=await _dbContext.Auctions.FindAsync(Guid.Parse(context.Message.AuctionId));
 
        if(context.Message.ItemSold)
 
