@@ -10,6 +10,7 @@ COPY src/GatewayServices/GatewayServices.csproj src/GatewayServices/GatewayServi
 COPY src/BiddService/BiddService.csproj src/BiddService/BiddService.csproj
 COPY src/IdentificationService/IdentificationService.csproj src/IdentificationService/IdentificationService.csproj
 COPY src/Contract/Contract.csproj src/Contract/Contract.csproj
+COPY src/AuctionNotifService/AuctionNotifService.csproj src/AuctionNotifService/AuctionNotifService.csproj
 
 #Przywróć pakiet
 RUN dotnet restore Carbidsite.sln
