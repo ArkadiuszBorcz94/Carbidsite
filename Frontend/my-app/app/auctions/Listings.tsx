@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useActionState, useEffect, useState } from 'react'
 import AuctionsCards from './AuctionsCards';
 import { Auction, PagedResult } from '@/types';
 import PagginationInApp from '../components/PagginationInApp';
@@ -10,13 +10,15 @@ import { useParamsStore } from '@/hooks/storeParamsUsed';
 import { useShallow } from 'zustand/shallow';
 import qs from 'query-string';
 import FilterOfEmptyPage from '../components/FilterOfEmptyPage';
+import { storeAuctionsUsed } from '@/hooks/storeAuctionsUsed';
 
 
 
 
 export default function Listings() {
   //zarządzanei stanami Zustand
-  const [data, setData] = useState<PagedResult<Auction>>();
+ 
+    const [load, setload]= useState(true);
   const params = useParamsStore(useShallow(state => ({
 
     pageNumber: state.pageNumber,
@@ -28,6 +30,14 @@ export default function Listings() {
     winner: state.winner
 
   })));
+  const data= storeAuctionsUsed(useShallow (state=> ({
+    auctions: state.auctions,
+    totalCount: state.totalCount,
+    pageCount: state.pageCount
+  })));
+
+
+const setData =storeAuctionsUsed(state=> state.setAuctionData)
 
   const setParams = useParamsStore(state => state.setParams);
   const url = qs.stringifyUrl({ url: '', query: params })
@@ -50,12 +60,13 @@ export default function Listings() {
   useEffect(() => {
     getData(url).then(data => {
       setData(data);
+      setload(false);
 
     })
 
   }, [url])
 
-  if (!data) return <h3>Wczytywanie...</h3>
+  if (load) return <h3>Wczytywanie...</h3>
 
   
 
@@ -68,8 +79,8 @@ export default function Listings() {
 
         ) : (
           <>
-            <div className='grid grid-cols-4 gap-5'>
-              {data.results.map(auction => (
+            <div className=' grid grid-cols-4 gap-5'>
+              {data.auctions.map(auction => (
                 <AuctionsCards auction={auction} key={auction.id} />
               ))}
 

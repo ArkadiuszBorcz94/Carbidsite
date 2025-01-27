@@ -23,7 +23,7 @@ export default function SiteLogo() {
     const reset= useParamsStore(state=> state.reset);
   
     return (
-    <div onClick={doReset} className=" cursor-pointer flex items-center gap-2 text-3xl font-semibold text-red-500">
+    <div onClick={doReset} className=" cursor-pointer flex items-center gap-3 text-3xl font-bold text-black">
         
     <FaCarSide size={34}/>
     <div>CarBidSite Aukcje</div>

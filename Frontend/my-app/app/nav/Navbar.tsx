@@ -15,7 +15,7 @@ export default async function Navbar() {
   
 
   return (
-    <header className='sticky top-0 z-50 flex justify-between bg-white p-5 items-center text-gray-800 shadow-md '>
+    <header className='sticky top-0 z-50 flex justify-between bg-gray-300 p-3 items-center text-gray-900 shadow-2xl '>
       <SiteLogo/>
       <Searching/>
       

@@ -4,6 +4,7 @@ import CountdownTimer from './CountdownTimer'
 import ImagesOfCars from './ImagesOfCars'
 import { Auction } from '@/types'
 import Link from 'next/link'
+import AuctionCurrentBid from './AuctionCurrentBid'
 
 //użycie typów z /types/index.ts w celu bezpieczensta przed pomyłkami by wykorzystywać typy generyczne
 type Props={
@@ -15,12 +16,16 @@ export default function AuctionsCards({auction}: Props) {
   return (
     //#oznacza że w kartę będzie można kliknąć
     <Link href={`/auctions/details/${auction.id}`} className='group'>
-        //kontenery na aukcje
-        <div className='relative w-full bg-gray-200 aspect-video rounded-lg overfolw-hidden'>
+      
+        <div className='shadow-2xl relative w-full bg-gray-200 aspect-video rounded-lg overfolw-hidden'>
            <ImagesOfCars imageUrl={auction.imageUrl}/>
                 
-         <div className='absolute bottem-2 left-2'>
+         <div className='absolute bottom-0 left-0'>
          <CountdownTimer auctionEnd={auction.auctionEnd}/>
+
+         </div>
+         <div className='absolute  left-0'>
+         <AuctionCurrentBid reservePrice={auction.reservePrice} amount={auction.currentHighBid}/>
 
          </div>
       

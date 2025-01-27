@@ -2,7 +2,8 @@
 
 import { auth } from "@/auth";
 import { wrapperOfFetches } from "@/library/wrapperOfFetches";
-import { Auction, PagedResult } from "@/types";
+import { Auction, Bid, PagedResult } from "@/types";
+import { wrap } from "module";
 import { revalidatePath } from "next/cache";
 import {  FieldValues } from "react-hook-form";
 
@@ -48,3 +49,13 @@ return await wrapperOfFetches.get(`search${query}`)
 
     return await wrapperOfFetches.del(`auctions/${id}`);
   }
+
+
+  export async function getAuctionBids(id: string): Promise<Bid[]>{
+
+    return await wrapperOfFetches.get(`bids/${id}`);
+  }
+
+export async function placeAuctionBids(auctionId:string, amount: number) {
+    return await wrapperOfFetches.post(`bids?auctionId=${auctionId}&amount=${amount}`, {})
+}

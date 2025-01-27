@@ -1,5 +1,5 @@
 
-import { getDetailView } from '@/app/actions/actionOfAuctions'
+import { getAuctionBids, getDetailView } from '@/app/actions/actionOfAuctions'
 import Headings from '@/app/components/Headings'
 import React from 'react'
 import CountdownTimer from '../../CountdownTimer'
@@ -9,12 +9,17 @@ import { getCurrentUser } from '@/app/actions/actionOfAuth'
 
 import DetailsTable from './DetailsTable'
 import DeletingAuctionsButton from './DeletingAuctionsButton'
+import ListOfBids from './ListOfBids'
+
+
 
 export default async function DetailsOfAuction({params}: {params: {id: string} }) {
   
    const data = await getDetailView(params.id);
  
    const user = await getCurrentUser();
+
+ 
   
   return  (
   
@@ -45,9 +50,9 @@ export default async function DetailsOfAuction({params}: {params: {id: string} }
            <div className='w-full bg-gray-200 relative aspect-[10/4] rounded-ss-full overflow-hidden'>
           <ImagesOfCars imageUrl={data.imageUrl}/>
           </div>
-           <div className='border-5 p-2 bg-green-200 rounded-ee-full'>
-             <Headings title='Oferty: '/>
-          </div>
+           
+           <ListOfBids user={user} auction={data}/>
+
           </div>
 
          <div className='mt-6 grid grid-cols-2 rounded-lg'> 

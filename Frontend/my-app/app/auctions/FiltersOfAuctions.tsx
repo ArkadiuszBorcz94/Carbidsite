@@ -56,13 +56,13 @@ export default function FiltersOfAuctions() {
  return (
 
 
-    <div className='flex justify-between items-center mb-4'>
+    <div className='shadow-2xl flex justify-between items-center mb-4'>
 
       
 
 
         <div>
-          <span className='uppercase text-sm text-gray-950 mr-2'>Aukcje na stronie</span>
+          <span className=' uppercase text-sm text-gray-950 mr-1'>Aukcje na stronie</span>
         <Button.Group>
 
         {buttonsSizeOfPage.map((value, i)=>(
@@ -78,9 +78,9 @@ export default function FiltersOfAuctions() {
         </Button.Group>
 </div>
 
-<div>
+<div >
       <span className='uppercase text-sm text-gray-950 mr-2'>Filtrowanie</span>
-      <Button.Group>
+      <Button.Group >
       {filteringButtons.map(({label, icon: Icon, value})=>(
        <Button 
        key={value} 

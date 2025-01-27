@@ -22,7 +22,7 @@ const searchValue=useParamsStore(state=>state.searchValue);
  }
 
   return (
-    <div className='flex w-[20%] items-center border-2 rounded-s-full py-2 shadow-sm'>
+    <div className='flex w-[20%] items-center border-2 border-white rounded-s-full py-2 '>
         <input 
 // rozpoczęcie wyszukiwania hasła po nacisnięciu ENTER
         onKeyDown={(e: any)=>{
